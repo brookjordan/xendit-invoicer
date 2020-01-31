@@ -1,3 +1,3 @@
-const runSchema = require('./run-schema');
+const runSchema = require("./run-schema");
 
-runSchema('create');
+runSchema("create");

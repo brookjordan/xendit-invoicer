@@ -1,29 +1,19 @@
-require('dotenv').config();
+const express = require("express");
+const getSchemaItems = require("./middleware/get-schema-items.js");
 
-const { Client } = require('pg');
+const app = express();
 
-const DB = new Client();
+app.get("/schema",
+  getSchemaItems,
+  async (request, response, next) => {
+    let schemaItems = request.schemaItems;
+    response.status(200);
+    response.send(schemaItems.map(item => ({
+      name: item.split(".")[0],
+    })));
+  },
+);
 
-async function init() {
-  try {
-    await DB.connect();
-  } catch (error) {
-    console.log(error);
-    process.exit(1);
-  }
-
-  let now = await DB.query('SELECT NOW()');
-  console.log(now);
-}
-
-async function endDB() {
-  try {
-    await DB.end();
-    process.exit(0);
-  } catch (error) {
-    console.log(error);
-    process.exit(1);
-  }
-}
-
-init().then(() => { endDB(); });
+app.listen(3000, () => {
+  console.log("Started on PORT 3000");
+});

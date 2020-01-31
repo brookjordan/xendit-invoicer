@@ -10,7 +10,7 @@ const readdir = promisify(fs.readdir);
 
 module.exports = async function runSchema(func = "create") {
   let parentDir = __dirname.split(path.sep).slice(0, -1).join(path.sep);
-  let schemaDir = path.join(parentDir, 'schema');
+  let schemaDir = path.join(parentDir, "schema");
   let dbConnection = DB.connect();
   let schemaItemsPromise = readdir(schemaDir);
   try {
