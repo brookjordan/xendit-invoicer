@@ -4,7 +4,8 @@ const path = require("path");
 
 const readdir = promisify(fs.readdir);
 
-const schemaDir = path.join(__dirname, "schema");
+const parentDir = __dirname.split(path.sep).slice(0, -1).join(path.sep);
+const schemaDir = path.join(parentDir, "schema");
 const schemaItemsPromise = readdir(schemaDir);
 
 module.exports = async function getSchemaItems(request, response, next) {
