@@ -5,7 +5,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const session = require("express-session");
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
 const setCORSPolicy = require("./middleware/set-cors-policy.js");
 const getSchemaItems = require("./middleware/get-schema-items.js");
@@ -22,9 +22,11 @@ app.use(setCORSPolicy);
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({
+  store: new (require("connect-pg-simple")(session))(),
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
   secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
