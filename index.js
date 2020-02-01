@@ -4,7 +4,6 @@ const port = process.env.PORT || 5000;
 const express = require("express");
 const bodyParser = require("body-parser")
 
-const cors = require("cors")
 const setCORSPolicy = require("./middleware/set-cors-policy.js")
 const getSchemaItems = require("./middleware/get-schema-items.js");
 
@@ -18,14 +17,17 @@ const jsonParser = bodyParser.json()
 
 app.use(setCORSPolicy);
 
-app.get("/schema",
+app.get("/",
   getSchemaItems,
   async (request, response, next) => {
     let schemaItems = request.schemaItems;
     response.status(200);
-    response.send(schemaItems.map(item => ({
-      name: item.split(".")[0],
-    })));
+    response.send({
+      version: "1.0.0-alpha.1",
+      availableEndPoints: schemaItems.map(item => ({
+        name: item.split(".")[0],
+      }))
+    });
   },
 );
 
