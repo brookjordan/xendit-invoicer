@@ -45,6 +45,15 @@ app.get("/",
   },
 );
 
+app.get("/auth-status",
+  function(request, response) {
+    response.status(200);
+    response.send({
+      user: request.user,
+    });
+  },
+);
+
 app.post("/login",
   passport.authenticate("local"),
   function(request, response) {

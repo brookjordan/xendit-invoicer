@@ -1,5 +1,9 @@
 module.exports = function returnInvoiceData(request, response, next) {
   response.status(200);
+  if (!request.user) {
+    response.send([]);
+    return;
+  }
   response.send([
     ...Array.from({ length: Math.ceil(Math.pow(Math.random() * 2, 3)) }, (item, i) => ({
       id: i,
