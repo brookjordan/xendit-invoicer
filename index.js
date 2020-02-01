@@ -2,16 +2,23 @@ require("dotenv").config();
 
 const port = process.env.PORT || 5000;
 const express = require("express");
-const getSchemaItems = require("./middleware/get-schema-items.js");
-const setAllowedOriginHeaders = require("./middleware/set-allowed-origin-headers.js");
+const bodyParser = require("body-parser")
 
-const invoices = require("./end-points/invoice.js");
-const invoiceLines = require("./end-points/invoice_line.js");
+const cors = require("cors")
+const setCORSPolicy = require("./middleware/set-cors-policy.js")
+const getSchemaItems = require("./middleware/get-schema-items.js");
+
+const getInvoices = require("./end-points/get/invoice.js");
+const getInvoiceLines = require("./end-points/get/invoice_line.js");
+
+const postAccount = require("./end-points/post/account.js");
 
 const app = express();
+const jsonParser = bodyParser.json()
+
+app.use(setCORSPolicy);
 
 app.get("/schema",
-  setAllowedOriginHeaders,
   getSchemaItems,
   async (request, response, next) => {
     let schemaItems = request.schemaItems;
@@ -23,15 +30,19 @@ app.get("/schema",
 );
 
 app.get("/invoice",
-  setAllowedOriginHeaders,
   getSchemaItems,
-  invoices,
+  getInvoices,
+);
+
+app.post("/account",
+  getSchemaItems,
+  jsonParser,
+  postAccount,
 );
 
 app.get("/invoice_line",
-  setAllowedOriginHeaders,
   getSchemaItems,
-  invoiceLines,
+  getInvoiceLines,
 );
 
 app.listen(port, () => {
