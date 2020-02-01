@@ -6,6 +6,7 @@ const devMode = process.env.DEV_MODE;
 const allowedOrigins = process.env.ALLOWED_ORIGINS.split(" ");
 
 const corsOptions = {
+  credentials: true,
   origin: (origin, callback) => {
     if (
       (origin && allowedOrigins.includes(origin))
