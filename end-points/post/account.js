@@ -1,7 +1,7 @@
 const DB = require("../../middleware/db.js");
 const { hashPassword } = require("../../middleware/hash-password.js");
 
-const queryString = "INSERT INTO account(email, fullname, password) VALUES($1, $2, $3)";
+const queryString = "INSERT INTO account(email, name, password) VALUES($1, $2, $3)";
 
 function sendError(type, message, response) {
   response.status(type);
@@ -16,7 +16,7 @@ module.exports = async function(request, response, next) {
 
   const {
     email,
-    fullname,
+    name,
     password,
   } = body;
   if (!email || !password) { return sendError(400, "Body requires email and password", response) }
@@ -37,7 +37,7 @@ module.exports = async function(request, response, next) {
   try {
     let insertResponse = await DB.query(queryString, [
       email,
-      fullname,
+      name,
       hashedPassword,
     ]);
     console.log(insertResponse.rows[0]);
