@@ -11,9 +11,6 @@ const setCORSPolicy = require("./middleware/set-cors-policy.js");
 const getSchemaItems = require("./middleware/get-schema-items.js");
 require("./middleware/setup-passport.js");
 
-const getInvoices = require("./end-points/get/invoice.js");
-const getInvoiceLines = require("./end-points/get/invoice_line.js");
-
 const postAccount = require("./end-points/post/account.js");
 
 const app = express();
@@ -75,11 +72,6 @@ app.post("/logout",
   },
 );
 
-app.get("/invoice",
-  getSchemaItems,
-  getInvoices,
-);
-
 app.post("/account",
   (request, response, next) => {
     next();
@@ -88,9 +80,53 @@ app.post("/account",
   postAccount,
 );
 
+app.get("/invoice",
+  getSchemaItems,
+  require("./end-points/get/invoice.js"),
+);
+app.get("/invoice/:id",
+  getSchemaItems,
+  require("./end-points/get/invoice.js"),
+);
+
 app.get("/invoice_line",
   getSchemaItems,
-  getInvoiceLines,
+  require("./end-points/get/invoice_line.js"),
+);
+app.get("/invoice_line/:id",
+  getSchemaItems,
+  require("./end-points/get/invoice_line.js"),
+);
+app.get("/invoice_line/invoice/:invoice_id",
+  getSchemaItems,
+  require("./end-points/get/invoice_line.js"),
+);
+
+app.get("/payment",
+  getSchemaItems,
+  require("./end-points/get/payment.js"),
+);
+app.get("/payment/:id",
+  getSchemaItems,
+  require("./end-points/get/payment.js"),
+);
+
+app.get("/refund",
+  getSchemaItems,
+  require("./end-points/get/refund.js"),
+);
+app.get("/refund/:id",
+  getSchemaItems,
+  require("./end-points/get/refund.js"),
+);
+
+app.get("/item",
+  getSchemaItems,
+  require("./end-points/get/item.js"),
+);
+app.get("/item/:id",
+  getSchemaItems,
+  require("./end-points/get/item.js"),
 );
 
 
