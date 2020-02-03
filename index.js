@@ -8,7 +8,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 
 const setCORSPolicy = require("./middleware/set-cors-policy.js");
-const getSchemaItems = require("./middleware/get-schema-items.js");
+const getSchemaDefinitions = require("./middleware/get-schema-items.js");
 require("./middleware/setup-passport.js");
 
 const postAccount = require("./end-points/post/account.js");
@@ -29,7 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/",
-  getSchemaItems,
+  getSchemaDefinitions,
   (request, response, next) => {
     console.log(request.user);
     let schemaItems = request.schemaItems;
@@ -76,57 +76,66 @@ app.post("/account",
   (request, response, next) => {
     next();
   },
-  getSchemaItems,
+  getSchemaDefinitions,
   postAccount,
 );
 
 app.get("/invoice",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/invoice.js"),
 );
 app.get("/invoice/:id",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/invoice.js"),
 );
 
 app.get("/invoice_line",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/invoice_line.js"),
 );
 app.get("/invoice_line/:id",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/invoice_line.js"),
 );
 app.get("/invoice_line/invoice/:invoice_id",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/invoice_line.js"),
 );
 
 app.get("/payment",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/payment.js"),
 );
 app.get("/payment/:id",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/payment.js"),
 );
 
 app.get("/refund",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/refund.js"),
 );
 app.get("/refund/:id",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/refund.js"),
 );
 
 app.get("/item",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/item.js"),
 );
 app.get("/item/:id",
-  getSchemaItems,
+  getSchemaDefinitions,
   require("./end-points/get/item.js"),
+);
+
+app.get("/account",
+  getSchemaDefinitions,
+  require("./end-points/get/account.js"),
+);
+app.get("/account/:id",
+  getSchemaDefinitions,
+  require("./end-points/get/account.js"),
 );
 
 
