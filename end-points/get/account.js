@@ -22,10 +22,8 @@ module.exports = async function returnInvoiceData(request, response, next) {
       }
     );
   } else {
-    console.log("All accounts");
     let accountData = await DB.query("SELECT id,password,name,email from account");
     response.status(200);
-    console.log(accountData.rows);
     response.send(
       accountData.rows.map(row => ({
         id: row.id,

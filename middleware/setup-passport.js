@@ -3,16 +3,23 @@ const LocalStrategy = require("passport-local");
 const DB = require("../middleware/db.js");
 const { testPassword } = require("../middleware/hash-password.js");
 
-passport.serializeUser((user, done) => done(null, user.id));
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
 passport.deserializeUser((userID, done) => {
+  // TODO: Find out how to get the full user on signup
   DB.query("SELECT id,name,email from account WHERE id=$1", [
     userID,
   ])
   .then(data => {
-    done(null, data.rows[0]);
+    if (data.rows[0]) {
+      done(null, data.rows[0]);
+    } else {
+      done({ id: userID });
+    }
   })
   .catch(error => {
-    done(error);
+    done({ id: userID });
   });
 });
 

@@ -11,8 +11,6 @@ const setCORSPolicy = require("./middleware/set-cors-policy.js");
 const getSchemaDefinitions = require("./middleware/get-schema-items.js");
 require("./middleware/setup-passport.js");
 
-const postAccount = require("./end-points/post/account.js");
-
 const app = express();
 
 app.use(setCORSPolicy);
@@ -73,11 +71,8 @@ app.post("/logout",
 );
 
 app.post("/account",
-  (request, response, next) => {
-    next();
-  },
   getSchemaDefinitions,
-  postAccount,
+  require("./end-points/post/account.js"),
 );
 
 app.get("/invoice",
@@ -87,6 +82,10 @@ app.get("/invoice",
 app.get("/invoice/:id",
   getSchemaDefinitions,
   require("./end-points/get/invoice.js"),
+);
+app.post("/invoice",
+  getSchemaDefinitions,
+  require("./end-points/post/invoice.js"),
 );
 
 app.get("/invoice_line",

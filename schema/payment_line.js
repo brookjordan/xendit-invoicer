@@ -4,7 +4,8 @@ module.exports = {
       id SERIAL PRIMARY KEY,
       payment INTEGER not null,
       item INTEGER not null,
-      quantity INTEGER not null
+      quantity INTEGER not null,
+      timestamp TIMESTAMPTZ DEFAULT current_timestamp
     )
   `,
 

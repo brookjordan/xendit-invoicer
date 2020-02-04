@@ -5,7 +5,8 @@ module.exports = {
       name VARCHAR(60),
       email VARCHAR(60) UNIQUE not null,
       password VARCHAR(60) not null,
-      balance REAL DEFAULT 0
+      balance REAL DEFAULT 0,
+      timestamp TIMESTAMPTZ DEFAULT current_timestamp
     )
   `,
 

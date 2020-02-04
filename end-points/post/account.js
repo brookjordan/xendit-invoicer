@@ -1,7 +1,7 @@
 const DB = require("../../middleware/db.js");
 const { hashPassword } = require("../../middleware/hash-password.js");
 
-const queryString = "INSERT INTO account(email, name, password) VALUES($1, $2, $3)";
+const queryString = "INSERT INTO account(email, name, password) VALUES($1, $2, $3) RETURNING *";
 
 function sendError(type, message, response) {
   response.status(type);
@@ -34,18 +34,26 @@ module.exports = async function(request, response, next) {
     return sendError(500, "Password hashing failed", response);
   }
 
+  let insertResponse;
   try {
-    let insertResponse = await DB.query(queryString, [
+    insertResponse = await DB.query(queryString, [
       email,
       name,
       hashedPassword,
     ]);
-    console.log(insertResponse.rows[0]);
   } catch (error) {
     console.log(error);
     return sendError(500, "Account insertion failed", response);
   }
 
   response.status(200);
-  response.send("{}");
+  let user = insertResponse.rows[0];
+  response.send(JSON.stringify({
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      balance: user.balance,
+    },
+  }));
 }
