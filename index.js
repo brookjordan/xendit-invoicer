@@ -29,7 +29,6 @@ app.use(passport.session());
 app.get("/",
   getSchemaDefinitions,
   (request, response, next) => {
-    console.log(request.user);
     let schemaItems = request.schemaItems;
     response.status(200);
     response.send({

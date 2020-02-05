@@ -24,7 +24,7 @@ const readdir = promisify(fs.readdir);
   }
 
   let schemaFile = `${process.env.SCHEMA}.js`;
-  let func = process.env.FUNC || 'create';
+  let func = process.env.FUNC || "create";
   let createSchema = require(path.join(schemaDir, schemaFile))[func];
   try {
     let query = await DB.query(createSchema);
